@@ -1,0 +1,35 @@
+# Log
+type Transfer @entity(immutable: true) {
+  id: ID!
+  address: String!
+  from: String!
+  to: String!
+  value: String!
+  transaction: String!
+  block_num: BigInt!
+  timestamp: BigInt!
+}
+
+# Log
+type Approval @entity(immutable: true) {
+  id: ID!
+  address: String!
+  owner: String!
+  spender: String!
+  value: String!
+  transaction: String!
+  block_num: BigInt!
+  timestamp: BigInt!
+}
+
+# State Change
+type BalanceOf @entity {
+  id: ID!
+  address: String!
+  method: String!
+  owner: String!
+  balance: String!
+  transaction: String!
+  block_num: BigInt!
+  timestamp: BigInt!
+}

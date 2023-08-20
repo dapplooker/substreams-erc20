@@ -1,0 +1,53 @@
+specVersion: v0.1.0
+package:
+  name: erc20
+  version: v0.3.0
+  url: https://github.com/pinax-network/substreams-cookbook
+  doc: ERC-20
+
+imports:
+  prometheus: https://github.com/pinax-network/substreams-sink-prometheus.rs/releases/download/v0.1.9/substreams-sink-prometheus-v0.1.9.spkg
+  entities: https://github.com/streamingfast/substreams-sink-entity-changes/releases/download/v1.3.0/substreams-sink-entity-changes-v1.3.0.spkg
+  kv: https://github.com/streamingfast/substreams-sink-kv/releases/download/v0.1.2/substreams-sink-kv-v0.1.2.spkg
+
+binaries:
+  default:
+    type: wasm/rust-v1
+    file: ./target/wasm32-unknown-unknown/release/erc20.wasm
+
+protobuf:
+  files:
+    - erc20.proto
+  importPaths:
+    - ./proto/v1
+
+modules:
+  - name: map_block
+    kind: map
+    doc: Extracts 'Approval' & 'Transfer' events from the block and storage changes from 'transfer' and 'transferFrom' functions.
+    inputs:
+      - source: sf.ethereum.type.v2.Block
+    output:
+      type: proto:erc20.types.v1.Block
+
+  - name: graph_out
+    kind: map
+    inputs:
+      - source: sf.substreams.v1.Clock
+      - map: map_block
+    output:
+      type: proto:sf.substreams.sink.entity.v1.EntityChanges
+
+  # - name: prom_out
+  #   kind: map
+  #   inputs:
+  #     - map: map_block
+  #   output:
+  #     type: proto:pinax.substreams.sink.prometheus.v1.PrometheusOperations
+
+  - name: kv_out
+    kind: map
+    inputs:
+      - map: map_block
+    output:
+      type: proto:sf.substreams.sink.kv.v1.KVOperations
