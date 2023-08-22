@@ -73,15 +73,27 @@ https://mermaid.live/edit#pako:eJx0j0FqAzEMRa9itJ6YtN25uzY3aHd1CIqtZEKj2NhSIIS5e
 ### Modules
 
 ```yaml
+Package name: erc20
+Version: v0.3.0
+Doc: ERC-20
+Modules:
+----
 Name: map_block
-Initial block: 1397553
+Initial block: 0
 Kind: map
 Output Type: proto:erc20.types.v1.Block
-Hash: 70ac852f45288d446c2ef26da9e4262abb13be29
+Hash: b12d86d51593789e230c66f0980f23c27b48d431
+Doc: Extracts 'Approval' & 'Transfer' events from the block and storage changes from 'transfer' and 'transferFrom' functions.
 
 Name: graph_out
-Initial block: 1397553
+Initial block: 0
 Kind: map
 Output Type: proto:sf.substreams.sink.entity.v1.EntityChanges
-Hash: 88893d90a260bf5856b9cbdece1ebcae656852d8
+Hash: 9ebb0501883d74139f68af6d24b3649b35f80bb5
+
+Name: kv_out
+Initial block: 0
+Kind: map
+Output Type: proto:sf.substreams.sink.kv.v1.KVOperations
+Hash: 18506933a53f78a0c8581d77ccedb2059d3a78f3
 ```
