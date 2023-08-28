@@ -11,6 +11,10 @@ $ make
 $ make gui
 ```
 
+## Releases
+
+- https://github.com/pinax-network/substreams-erc20/releases
+
 ## References
 - [Ethereum Docs: ERC-20 Token Standard](https://ethereum.org/en/developers/docs/standards/tokens/erc-20/)
 - [EIPS: ERC-20 Token Standard ](https://eips.ethereum.org/EIPS/eip-20)
