@@ -31,7 +31,7 @@ run:
 
 .PHONY: gui
 gui:
-	substreams gui kv_out -e eth.substreams.pinax.network:9000 -s 17950894 -t +1
+	substreams gui map_block -e eth.substreams.pinax.network:9000 -s 17950894
 
 .PHONY: deploy
 deploy:

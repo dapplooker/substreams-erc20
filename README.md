@@ -1,5 +1,16 @@
 # ERC-20 Substreams
 
+> Substreams for ERC-20 tokens.
+
+## Quickstart
+
+```
+$ gh repo clone pinax-network/substreams-erc20
+$ cd substreams-erc20
+$ make
+$ make gui
+```
+
 ## References
 - [Ethereum Docs: ERC-20 Token Standard](https://ethereum.org/en/developers/docs/standards/tokens/erc-20/)
 - [EIPS: ERC-20 Token Standard ](https://eips.ethereum.org/EIPS/eip-20)
