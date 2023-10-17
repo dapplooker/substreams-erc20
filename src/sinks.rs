@@ -1,14 +1,10 @@
-use std::ops::Div;
 use std::str::FromStr;
 
 use crate::pb::erc20::types::v1::Block as Erc20Block;
 use ethabi::ethereum_types::U256;
-use substreams::log;
-use substreams_sink_prometheus::{PrometheusOperations, Counter, Gauge};
 use substreams::{errors::Error, pb::substreams::Clock};
 use substreams_entity_change::pb::entity::EntityChanges;
 use substreams_entity_change::tables::Tables;
-use substreams_sink_kv::pb::sf::substreams::sink::kv::v1::KvOperations;
 
 
 #[substreams::handlers::map]
