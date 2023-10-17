@@ -24,7 +24,8 @@ protobuf:
 modules:
   - name: map_block
     kind: map
-    doc: Extracts 'Approval' & 'Transfer' events from the block and storage changes from 'transfer' and 'transferFrom' functions.
+    initialBlock: 110661
+    doc: Storage changes from 'transfer' and 'transferFrom' functions.
     inputs:
       - source: sf.ethereum.type.v2.Block
     output:
@@ -32,22 +33,9 @@ modules:
 
   - name: graph_out
     kind: map
+    initialBlock: 110661
     inputs:
       - source: sf.substreams.v1.Clock
       - map: map_block
     output:
       type: proto:sf.substreams.sink.entity.v1.EntityChanges
-
-  # - name: prom_out
-  #   kind: map
-  #   inputs:
-  #     - map: map_block
-  #   output:
-  #     type: proto:pinax.substreams.sink.prometheus.v1.PrometheusOperations
-
-  - name: kv_out
-    kind: map
-    inputs:
-      - map: map_block
-    output:
-      type: proto:sf.substreams.sink.kv.v1.KVOperations
