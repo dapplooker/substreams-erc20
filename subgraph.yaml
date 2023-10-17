@@ -1,6 +1,6 @@
 specVersion: 0.0.6
 description: ERC20 Ethereum (powered by Substreams)
-repository: https://github.com/pinax-network/substreams-cookbook.git
+repository: https://github.com/GundamDweeb/substreams-erc20
 schema:
   file: ./schema.graphql
 

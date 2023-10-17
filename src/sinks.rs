@@ -18,10 +18,15 @@ pub fn graph_out(clock: Clock, block: Erc20Block) -> Result<EntityChanges, Error
         let id = format!("{}:{}", storage_change.address, storage_change.owner);
 
         let balance = U256::from_str(&storage_change.balance).unwrap();
+        let zero = U256::from_str("0").unwrap();
         tables
             .create_row("Account", storage_change.owner.clone());
-          
-        tables
+
+        if balance == zero {
+            tables
+            .delete_row("Balance", id);
+        } else {
+            tables
             .create_row("Balance", id)
             // contract address
             .set("address", storage_change.address)
@@ -33,6 +38,8 @@ pub fn graph_out(clock: Clock, block: Erc20Block) -> Result<EntityChanges, Error
             .set("transaction", storage_change.transaction)
             .set_bigint("block_num", &block_num)
             .set_bigint("timestamp", &timestamp);
+        }
+       
     }
 
     Ok(tables.to_entity_changes())
