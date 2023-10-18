@@ -3,18 +3,29 @@ syntax = "proto3";
 package erc20.types.v1;
 
 message Block {
-  repeated BalanceOfStorageChange storage_changes = 3;
+  repeated BalanceOfStorageChange storage_changes = 1;
 }
 
 message BalanceOfStorageChange {
   // contract address
   string address = 1;
-  string method = 2;
+   // string name = 2;
+  // string decimals = 3;
+  string method = 4;
 
   // storage changes
-  string owner = 4;
-  string balance = 5;
+  string owner = 5;
+  string balance = 6;
 
   // trace information
-  string transaction = 6;
+  string transaction = 7;
 }
+
+message Erc20Token {
+  string address = 1;
+  string name = 2;
+  string symbol = 3;
+  uint64 decimals = 4;
+}
+
+

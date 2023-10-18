@@ -1,3 +1,5 @@
+ENDPOINT ?= mainnet.eth.streamingfast.io:443
+
 .PHONY: all
 all:
 	make build
@@ -12,6 +14,10 @@ build:
 .PHONY: protogen
 protogen:
 	substreams protogen --exclude-paths sf/substreams,google
+
+.PHONY: tt
+tt: 
+	substreams run -e $(ENDPOINT) substreams.yaml graph_out -s 110661 -t +2000000 -o json
 
 .PHONY: pack
 pack:

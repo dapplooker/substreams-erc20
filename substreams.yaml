@@ -2,13 +2,11 @@ specVersion: v0.1.0
 package:
   name: erc20
   version: v0.3.0
-  url: https://github.com/pinax-network/substreams-cookbook
+  url: https://github.com/GundamDweeb/substreams-erc20
   doc: ERC-20
 
 imports:
-  prometheus: https://github.com/pinax-network/substreams-sink-prometheus.rs/releases/download/v0.1.9/substreams-sink-prometheus-v0.1.9.spkg
   entities: https://github.com/streamingfast/substreams-sink-entity-changes/releases/download/v1.3.0/substreams-sink-entity-changes-v1.3.0.spkg
-  kv: https://github.com/streamingfast/substreams-sink-kv/releases/download/v0.1.2/substreams-sink-kv-v0.1.2.spkg
 
 binaries:
   default:
@@ -31,11 +29,21 @@ modules:
     output:
       type: proto:erc20.types.v1.Block
 
+  - name: store_tokens
+    kind: store
+    initialBlock: 110661
+    updatePolicy: set_if_not_exists
+    valueType: proto:erc20.types.v1.Erc20Token
+    inputs:
+      - map: map_block
+
+
   - name: graph_out
     kind: map
     initialBlock: 110661
     inputs:
       - source: sf.substreams.v1.Clock
       - map: map_block
+      - store: store_tokens
     output:
       type: proto:sf.substreams.sink.entity.v1.EntityChanges
