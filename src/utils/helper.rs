@@ -6,9 +6,6 @@ use substreams::scalar::BigInt;
 use substreams::Hex;
 use crate::pb::erc20::types::v1::Erc20Token;
 
-pub fn transform_address(address: Vec<u8>) -> String {
-    Hex(address).to_string()
-}
 
 pub fn append_0x(i: &str) -> String {
     format!("0x{}", i)

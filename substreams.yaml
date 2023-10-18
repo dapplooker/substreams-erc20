@@ -22,16 +22,16 @@ protobuf:
 modules:
   - name: map_block
     kind: map
-    initialBlock: 110661
+    initialBlock: 447766
     doc: Storage changes from 'transfer' and 'transferFrom' functions.
     inputs:
       - source: sf.ethereum.type.v2.Block
     output:
-      type: proto:erc20.types.v1.Block
+      type: proto:erc20.types.v1.BalanceChanges
 
   - name: store_tokens
     kind: store
-    initialBlock: 110661
+    initialBlock: 447766
     updatePolicy: set_if_not_exists
     valueType: proto:erc20.types.v1.Erc20Token
     inputs:
@@ -40,7 +40,7 @@ modules:
 
   - name: graph_out
     kind: map
-    initialBlock: 110661
+    initialBlock: 447766
     inputs:
       - source: sf.substreams.v1.Clock
       - map: map_block

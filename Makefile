@@ -17,7 +17,7 @@ protogen:
 
 .PHONY: tt
 tt: 
-	substreams run -e $(ENDPOINT) substreams.yaml graph_out -s 110661 -t +2000000 -o json
+	substreams run -e $(ENDPOINT) substreams.yaml graph_out -s 447766 -t +2000000 -o json
 
 .PHONY: pack
 pack:
@@ -37,7 +37,7 @@ run:
 
 .PHONY: gui
 gui:
-	substreams gui map_block -e eth.substreams.pinax.network:9000 -s 17950894
+	substreams gui map_block -e eth.substreams.pinax.network:9000 -s 447766
 
 .PHONY: deploy
 deploy:
