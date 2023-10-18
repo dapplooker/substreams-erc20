@@ -48,15 +48,14 @@ pub fn graph_out(clock: Clock, block: Erc20Block, token: StoreGetProto<Erc20Toke
             tables
             .create_row("Balance", id)
             // contract address
-            .set("address", storage_change.address)
-            .set("method", storage_change.method)
+            .set("token", storage_change.address)
             // storage change
             .set("owner", storage_change.owner)
             .set("balance", balance.to_string())
             // trace information
-            .set("transaction", storage_change.transaction)
-            .set_bigint("block_num", &block_num)
-            .set_bigint("timestamp", &timestamp);
+            .set("transaction_hash_updated", storage_change.transaction)
+            .set_bigint("block_num_updated", &block_num)
+            .set_bigint("timestamp_updated", &timestamp);
         }
        
     }

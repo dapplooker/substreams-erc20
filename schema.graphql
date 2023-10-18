@@ -12,11 +12,10 @@ type Token @entity {
 
 type Balance @entity {
   id: ID!
-  address: String!
-  method: String!
+  token: Token!
   owner: Account!
   balance: String!
-  transaction: String!
-  block_num: BigInt!
-  timestamp: BigInt!
+  transaction_hash_updated: String!
+  block_num_updated: BigInt!
+  timestamp_updated: BigInt!
 }
