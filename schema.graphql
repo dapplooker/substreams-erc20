@@ -14,9 +14,5 @@ type Balance @entity {
   id: ID!
   token: Token!
   owner: Account!
-  new_balance: BigInt!
-  old_balance: BigInt!
-  transaction_hash_updated: String!
-  block_num_updated: BigInt!
-  timestamp_updated: BigInt!
+  balance: BigInt!
 }

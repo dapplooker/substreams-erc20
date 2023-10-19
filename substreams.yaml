@@ -33,7 +33,7 @@ modules:
     kind: store
     initialBlock: 447766
     updatePolicy: set_if_not_exists
-    valueType: proto:erc20.types.v1.Erc20Token
+    valueType: string
     inputs:
       - map: map_block
 

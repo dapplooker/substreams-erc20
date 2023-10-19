@@ -12,7 +12,7 @@ use substreams::errors::Error;
 use substreams::log::info;
 use substreams::scalar::BigInt;
 use substreams::{Hex, hex};
-use substreams::store::{StoreNew, StoreSetIfNotExistsProto, StoreSetIfNotExists};
+use substreams::store::{StoreNew, StoreSetIfNotExistsProto, StoreSetIfNotExists, StoreSetIfNotExistsString};
 use substreams_ethereum::Event;
 use substreams_ethereum::pb::eth::v2::{Block, Call, TransactionTrace, TransactionTraceStatus};
 
@@ -29,12 +29,12 @@ pub fn map_block(block: Block) -> Result<BalanceChanges, Error> {
 }
 
 #[substreams::handlers::store]
-pub fn store_tokens(i0: BalanceChanges, o: StoreSetIfNotExistsProto<Erc20Token>) {
+pub fn store_tokens(i0: BalanceChanges, o: StoreSetIfNotExistsString) {
     for balance_change in i0.balance_changes {
         o.set_if_not_exists(
             0,
             &balance_change.contract,
-            &get_erc20_token(balance_change.contract.clone()).unwrap(),
+            &balance_change.contract
         );
     }
 }
