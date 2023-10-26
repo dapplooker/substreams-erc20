@@ -24,7 +24,7 @@ pub fn graph_out(
         if token_found {
             let token = &get_erc20_token(storage_change.contract.clone()).unwrap();
             tables
-                .create_row("Token", append_0x(&token.address))
+                .create_row("Token", append_0x(&storage_change.contract))
                 .set("name", token.name.clone())
                 .set("decimals", token.decimals.clone())
                 .set("symbol", token.symbol.clone());
@@ -38,37 +38,16 @@ pub fn graph_out(
 
         tables.create_row("Account", append_0x(&storage_change.owner.clone()));
 
-        let contains = tables.tables.contains_key(&id);
-        if contains {
-            if BigInt::try_from(storage_change.new_balance.clone())
-                .unwrap_or_default()
-                .is_zero()
-            {
-                tables.delete_row("Balance", id);
-            } else {
-                tables.update_row("Balance", id).set(
-                    "balance",
-                    BigInt::try_from(storage_change.new_balance).unwrap_or_default(),
-                );
-            }
-        } else {
-            if BigInt::try_from(storage_change.new_balance.clone())
-                .unwrap_or_default()
-                .is_zero()
-            {
-                continue;
-            }
-            tables
-                .create_row("Balance", id)
-                // contract address
-                .set("token", append_0x(&storage_change.contract))
-                // storage change
-                .set("owner", append_0x(&storage_change.owner))
-                .set(
-                    "balance",
-                    BigInt::try_from(storage_change.new_balance).unwrap_or_default(),
-                );
-        }
+        tables
+            .create_row("Balance", id)
+            // contract address
+            .set("token", append_0x(&storage_change.contract))
+            // storage change
+            .set("owner", append_0x(&storage_change.owner))
+            .set(
+                "balance",
+                BigInt::try_from(storage_change.new_balance).unwrap_or_default(),
+            );
     }
 
     Ok(tables.to_entity_changes())

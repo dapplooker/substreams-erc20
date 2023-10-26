@@ -17,7 +17,7 @@ protogen:
 
 .PHONY: tt
 tt: 
-	substreams run -e $(ENDPOINT) substreams.yaml graph_out -s 447766 -t +2000000 -o json
+	substreams run -e $(ENDPOINT) substreams.yaml graph_out -s 18384526 -t +10 
 
 .PHONY: pack
 pack:

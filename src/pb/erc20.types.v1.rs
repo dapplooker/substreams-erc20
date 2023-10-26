@@ -12,18 +12,8 @@ pub struct BalanceChange {
     pub contract: ::prost::alloc::string::String,
     #[prost(string, tag="2")]
     pub owner: ::prost::alloc::string::String,
-    #[prost(string, tag="3")]
-    pub old_balance: ::prost::alloc::string::String,
     #[prost(string, tag="4")]
     pub new_balance: ::prost::alloc::string::String,
-    #[prost(string, tag="5")]
-    pub transaction: ::prost::alloc::string::String,
-    #[prost(string, tag="6")]
-    pub storage_key: ::prost::alloc::string::String,
-    #[prost(uint32, tag="7")]
-    pub call_index: u32,
-    #[prost(string, tag="8")]
-    pub transfer_value: ::prost::alloc::string::String,
     #[prost(enumeration="BalanceChangeType", tag="9")]
     pub change_type: i32,
 }
