@@ -3,16 +3,14 @@
 use std::collections::HashMap;
 
 use crate::abi::erc20::events::Transfer;
-use crate::utils::helper::{get_erc20_token};
 
-use crate::pb::erc20::types::v1::{
-    Erc20Token, BalanceChanges, BalanceChange, BalanceChangeType
+use crate::pb::erc20::types::v1::{ BalanceChanges, BalanceChange, BalanceChangeType
 };
 use substreams::errors::Error;
 use substreams::log::info;
 use substreams::scalar::BigInt;
 use substreams::{Hex, hex};
-use substreams::store::{StoreNew, StoreSetIfNotExistsProto, StoreSetIfNotExists, StoreSetIfNotExistsString};
+use substreams::store::{StoreNew, StoreSetIfNotExists, StoreSetIfNotExistsString};
 use substreams_ethereum::Event;
 use substreams_ethereum::pb::eth::v2::{Block, Call, TransactionTrace, TransactionTraceStatus};
 
@@ -63,7 +61,7 @@ pub fn map_balance_change(block: Block) -> Vec<BalanceChange> {
                 if transfer.value.is_zero() {
                     continue;
                 }
-
+                //TODO PUT BACK IN
                 if transfer.from == NULL_ADDRESS {
                     continue;
                 }

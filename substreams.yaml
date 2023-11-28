@@ -1,12 +1,14 @@
 specVersion: v0.1.0
 package:
   name: erc20
-  version: v0.3.0
+  version: v0.4.0
   url: https://github.com/GundamDweeb/substreams-erc20
   doc: ERC-20
 
 imports:
-  entities: https://github.com/streamingfast/substreams-sink-entity-changes/releases/download/v1.3.0/substreams-sink-entity-changes-v1.3.0.spkg
+  entities_change: https://github.com/streamingfast/substreams-sink-entity-changes/releases/download/v1.3.0/substreams-sink-entity-changes-v1.3.0.spkg
+
+network: arbitrum
 
 binaries:
   default:
@@ -22,7 +24,7 @@ protobuf:
 modules:
   - name: map_block
     kind: map
-    initialBlock: 447766
+    initialBlock: 0
     doc: Storage changes from 'transfer' and 'transferFrom' functions.
     inputs:
       - source: sf.ethereum.type.v2.Block
@@ -31,7 +33,7 @@ modules:
 
   - name: store_tokens
     kind: store
-    initialBlock: 447766
+    initialBlock: 0
     updatePolicy: set_if_not_exists
     valueType: string
     inputs:
@@ -40,7 +42,7 @@ modules:
 
   - name: graph_out
     kind: map
-    initialBlock: 447766
+    initialBlock: 0
     inputs:
       - map: map_block
       - store: store_tokens

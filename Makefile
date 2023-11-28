@@ -1,4 +1,4 @@
-ENDPOINT ?= mainnet.eth.streamingfast.io:443
+ENDPOINT ?= arb-one.streamingfast.io:443
 
 .PHONY: all
 all:
@@ -17,7 +17,11 @@ protogen:
 
 .PHONY: tt
 tt: 
-	substreams run -e $(ENDPOINT) substreams.yaml graph_out -s 18384526 -t +10 
+	substreams run -e $(ENDPOINT) substreams.yaml map_block -s 22207900 -t +100000 -o json
+
+.PHONY: gi
+gi: 
+	substreams gui -e $(ENDPOINT) substreams.yaml graph_out -s 0 -t +100
 
 .PHONY: pack
 pack:
@@ -31,14 +35,3 @@ graph:
 info:
 	substreams info
 
-.PHONY: run
-run:
-	substreams run map_block -e eth.substreams.pinax.network:9000 -s -1000 -o jsonl
-
-.PHONY: gui
-gui:
-	substreams gui map_block -e eth.substreams.pinax.network:9000 -s 447766
-
-.PHONY: deploy
-deploy:
-	graph deploy --studio erc-20

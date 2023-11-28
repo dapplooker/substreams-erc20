@@ -1,9 +1,9 @@
-use crate::pb::erc20::types::v1::{BalanceChanges, Erc20Token};
+use crate::pb::erc20::types::v1::{BalanceChanges};
 use crate::utils::helper::{append_0x, get_erc20_token};
 use substreams::scalar::BigInt;
 use substreams::store::StoreGet;
-use substreams::store::{StoreGetProto, StoreGetString};
-use substreams::{errors::Error, pb::substreams::Clock};
+use substreams::store::{StoreGetString};
+use substreams::{errors::Error};
 use substreams_entity_change::pb::entity::EntityChanges;
 use substreams_entity_change::tables::Tables;
 
