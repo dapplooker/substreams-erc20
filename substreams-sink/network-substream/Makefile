@@ -1,4 +1,4 @@
-DSN ?= psql://postgres:root@localhost:5432/substreams_e?&schema="ethereum"&sslmode=disable
+DSN ?= psql://postgres:root@localhost:5432/substreams_e?&schema="stack_os_wallet"&sslmode=disable
 ENDPOINT ?= mainnet.eth.streamingfast.io:443
 
 .PHONY: build

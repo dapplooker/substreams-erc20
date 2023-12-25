@@ -26,9 +26,9 @@ const STACK_OS_ADDRESS: [u8; 20] = hex!("56a86d648c435dc707c8405b78e2ae8eb4e60ba
 
 fn add_tokens_info_entity(tables: &mut Tables, balance: &BalanceChange, block_number:  &u64) {
     tables
-    .create_row("tokens",  base_64_to_hex(balance.owner.clone()))
-    .set("owner",  balance.owner.clone())
-    .set("new_balance",   balance.new_balance.clone())
+    .update_row("wallet_balance",  base_64_to_hex(balance.owner.clone().to_string()))
+    .set("owner_address",  balance.owner.clone())
+    .set("balance",   balance.new_balance.clone())
     .set("transaction_hash",  balance.change_type.clone());
 }
 
