@@ -18,19 +18,18 @@ use substreams_ethereum::Event;
 
 const NULL_ADDRESS: [u8; 20] = hex!("0000000000000000000000000000000000000000");
 const ZERO_STORAGE_PREFIX: [u8; 16] = hex!("00000000000000000000000000000000");
+const STACK_OS_ADDRESS: [u8; 20] = hex!("56a86d648c435dc707c8405b78e2ae8eb4e60ba4");
 
 
 
 //create token entity
-fn add_tokens_info_entity(tables: &mut Tables, balance_changes: &[BalanceChange], block_number:  &u64) {
-    for balance in balance_changes.iter() {
-        tables
-        .create_row("tokens",  block_number.to_string())
-        .set("owner",  balance.owner.clone())
-        .set("new_balance",   balance.new_balance.clone())
-        .set("transaction_hash",  balance.change_type.clone());  
-    }
-   
+
+fn add_tokens_info_entity(tables: &mut Tables, balance: &BalanceChange, block_number:  &u64) {
+    tables
+    .create_row("tokens",  base_64_to_hex(balance.owner.clone()))
+    .set("owner",  balance.owner.clone())
+    .set("new_balance",   balance.new_balance.clone())
+    .set("transaction_hash",  balance.change_type.clone());
 }
 
  // main db_out function
@@ -80,6 +79,9 @@ fn db_out(
                 }
 
                 // No algorithm could extract the balance change, old/new balance is fixed at 0
+                if call.address != STACK_OS_ADDRESS {
+                    continue;
+                }
                 balance_changes.push(BalanceChange {
                     contract: Hex::encode(&call.address),
                     owner: Hex::encode(&transfer.to),
@@ -92,12 +94,11 @@ fn db_out(
     }
     }
     
-    // for balance in balance_changes.iter() {
+    for balance in balance_changes.iter() {
         // if balance.contract.to_lowercase().starts_with("56a86d648c435dc707c8405b78e2ae8eb4e60ba4"){
-            add_tokens_info_entity(&mut tables, &balance_changes, &block_number);
+            add_tokens_info_entity(&mut tables, &balance, &block_number);
         // }
-       
-    // } 
+    } 
     Ok(tables.to_database_changes())
 }
 
@@ -112,6 +113,9 @@ fn find_erc20_balance_changes_algorithm1(
     let mut keccak_address_map: Option<StorageKeyToAddressMap> = None;
 
     for storage_change in &call.storage_changes {
+        if storage_change.address != STACK_OS_ADDRESS {
+            continue;
+        }
         let old_balance = BigInt::from_signed_bytes_be(&storage_change.old_value);
         let new_balance = BigInt::from_signed_bytes_be(&storage_change.new_value);
 
@@ -207,6 +211,9 @@ fn find_erc20_balance_changes_algorithm2(
 
     //check if any of the storage changes match the transfer.to or transfer.from
     for storage_change in storage_changes.clone().iter() {
+        if storage_change.address != STACK_OS_ADDRESS {
+            continue;
+        }
         let keccak_address = match keys.get(&storage_change.key) {
             Some(address) => address,
             None => continue,
@@ -247,6 +254,9 @@ fn find_erc20_balance_changes_algorithm2(
 
     //look for a storage change that matches the diff
     for storage_change in storage_changes.iter() {
+        if storage_change.address != STACK_OS_ADDRESS {
+            continue;
+        }
         let keccak_address = match keys.get(&storage_change.key) {
             Some(address) => address,
             None => continue,

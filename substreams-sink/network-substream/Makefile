@@ -11,7 +11,7 @@ protogen:
 
 .PHONY: stream_db_out
 stream_db_out: build
-	substreams run -e $(ENDPOINT) substreams.yaml db_out -t +100
+	substreams run -e $(ENDPOINT) substreams.yaml db_out -s 12296777 -t +100 -o json
 
 .PHONY: create_db
 create_db: 
