@@ -22,7 +22,7 @@ CREATE TABLE stack_os_data.bnb_wallet_balance (
     creation_time text
 );
 
-CREATE TABLE stack_os_data.poygon_wallet_balance (
+CREATE TABLE stack_os_data.polygon_wallet_balance (
     owner_address text,
     balance numeric,
     transaction_hash text,
