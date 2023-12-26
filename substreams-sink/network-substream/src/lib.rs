@@ -27,8 +27,9 @@ const STACK_OS_ADDRESS: [u8; 20] = hex!("56a86d648c435dc707c8405b78e2ae8eb4e60ba
 //create token entity
 fn add_tokens_info_entity(tables: &mut Tables, balance: &BalanceChange, _block_number:  &u64) {
     tables
-    .create_row("ethereum_wallet_balance",  format!("0x{}", &balance.owner.to_string()))
-    .set("owner_address", balance.owner.clone())    
+    .create_row("ethereum_wallet_balance",  format!("0x{}", &balance.id_hash.to_string()))
+    .set("id", balance.id_hash.clone())  
+    .set("owner_address", format!("0x{}", &balance.owner.clone()))    
     .set("balance", balance.new_balance.clone())
     .set("creation_time", balance.creation_time.clone())
     .set("transaction_hash", balance.change_type.clone());

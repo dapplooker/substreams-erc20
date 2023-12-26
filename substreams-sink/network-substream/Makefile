@@ -1,4 +1,4 @@
-DSN ?= psql://postgres:root@localhost:5432/substreams_e?&schema="stack_os_wallet"&sslmode=disable
+DSN ?= psql://postgres:root@localhost:5432/substreams_e?&schema="stack_os_data"&sslmode=disable
 ENDPOINT ?= mainnet.eth.streamingfast.io:443
 
 .PHONY: build
@@ -15,7 +15,7 @@ stream_db_out: build
 
 .PHONY: create_db
 create_db: 
-	substreams-sink-sql setup "$(DSN)" --ignore-duplicate-table-errors sink/substreams.dev.yaml
+	substreams-sink-sql setup "$(DSN)" sink/substreams.dev.yaml
 
 .PHONY: sink_db_out
 sink_db_out: build

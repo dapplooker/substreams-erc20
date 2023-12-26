@@ -9,6 +9,7 @@ CREATE TABLE stack_os_data.cursors
 );
 
 CREATE TABLE stack_os_data.ethereum_wallet_balance (
+    id   text not null constraint ethereum_wallet_balance_pk primary key,
     owner_address text,
     balance numeric,
     transaction_hash text,
@@ -16,13 +17,15 @@ CREATE TABLE stack_os_data.ethereum_wallet_balance (
 );
 
 CREATE TABLE stack_os_data.bnb_wallet_balance (
+    id   text not null constraint bnb_wallet_balance_pk primary key,
     owner_address text,
     balance numeric,
-    transaction_hash text,
+    transaction_hash text,  
     creation_time text
 );
 
 CREATE TABLE stack_os_data.polygon_wallet_balance (
+    id  text not null constraint polygon_wallet_balance_pk primary key,
     owner_address text,
     balance numeric,
     transaction_hash text,
