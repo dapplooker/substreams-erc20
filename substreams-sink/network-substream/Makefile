@@ -19,4 +19,4 @@ create_db:
 
 .PHONY: sink_db_out
 sink_db_out: build
-	substreams-sink-sql run "$(DSN)" sink/substreams.dev.yaml
+	substreams-sink-sql run "$(DSN)" sink/substreams.dev.yaml 12296288:17942367
