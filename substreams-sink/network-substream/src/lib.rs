@@ -7,10 +7,8 @@ use abi::erc20::events::Transfer;
 use substreams_ethereum::pb::eth::v2 as eth;
 use substreams_database_change::pb::database::{ DatabaseChanges};
 use substreams::scalar::BigInt;
-use pb::erc20::types::v1::{  BalanceChange, BalanceChanges, BalanceChangeType
-};
-use substreams_ethereum::pb::eth::v2::{Block, Call, TransactionTrace, TransactionTraceStatus};
-use prost_types::Timestamp;
+use pb::erc20::types::v1::{ BalanceChange };
+use substreams_ethereum::pb::eth::v2::{Call, TransactionTrace, TransactionTraceStatus};
 use substreams::log::info;
 use std::collections::HashMap;
 use substreams_ethereum::Event;
@@ -23,13 +21,11 @@ const STACK_OS_ADDRESS: [u8; 20] = hex!("56a86d648c435dc707c8405b78e2ae8eb4e60ba
 
 
 //create token entity
-
-fn add_tokens_info_entity(tables: &mut Tables, balance: &BalanceChange, block_number:  &u64) {
+fn add_tokens_info_entity(tables: &mut Tables, balance: &BalanceChange, _block_number:  &u64) {
     tables
-    .update_row("wallet_balance",  base_64_to_hex(balance.owner.clone().to_string()))
-    .set("owner_address",  balance.owner.clone())
-    .set("balance",   balance.new_balance.clone())
-    .set("transaction_hash",  balance.change_type.clone());
+    .update_row("wallet_balance",  format!("0x{}", &balance.owner.to_string()))
+    .set("balance", balance.new_balance.clone())
+    .set("transaction_hash", balance.change_type.clone());
 }
 
  // main db_out function
