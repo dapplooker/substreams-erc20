@@ -16,6 +16,8 @@ message BalanceChange {
   string contract = 1;
   string owner = 2;
   string new_balance = 4;
+  string idHash = 5;
+  string creation_time = 6;
   string change_type = 9;
 }
 

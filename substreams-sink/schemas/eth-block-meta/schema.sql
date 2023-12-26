@@ -8,8 +8,23 @@ CREATE TABLE stack_os_wallet.cursors
     block_id   text
 );
 
-CREATE TABLE stack_os_wallet.wallet_balance (
-    owner_address text not null constraint owner_address_pk primary key,
+CREATE TABLE stack_os_wallet.ethereum_wallet_balance (
+    owner_address text,
     balance numeric,
-    transaction_hash text
+    transaction_hash text,
+    creation_time text
+);
+
+CREATE TABLE stack_os_wallet.bnb_wallet_balance (
+    owner_address text,
+    balance numeric,
+    transaction_hash text,
+    creation_time text
+);
+
+CREATE TABLE stack_os_wallet.poygon_wallet_balance (
+    owner_address text,
+    balance numeric,
+    transaction_hash text,
+    creation_time text
 );

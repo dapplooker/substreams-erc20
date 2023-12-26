@@ -14,6 +14,10 @@ pub struct BalanceChange {
     pub owner: ::prost::alloc::string::String,
     #[prost(string, tag="4")]
     pub new_balance: ::prost::alloc::string::String,
+    #[prost(string, tag="5")]
+    pub id_hash: ::prost::alloc::string::String,
+    #[prost(string, tag="6")]
+    pub creation_time: ::prost::alloc::string::String,
     #[prost(string, tag="9")]
     pub change_type: ::prost::alloc::string::String,
 }

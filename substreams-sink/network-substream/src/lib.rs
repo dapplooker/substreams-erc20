@@ -12,19 +12,25 @@ use substreams_ethereum::pb::eth::v2::{Call, TransactionTrace, TransactionTraceS
 use substreams::log::info;
 use std::collections::HashMap;
 use substreams_ethereum::Event;
+use chrono::{DateTime, Utc};
+use sha2::{Digest, Sha256};
+use std::time::Duration;
+use hex::encode as hex_encode;
 
 
 const NULL_ADDRESS: [u8; 20] = hex!("0000000000000000000000000000000000000000");
 const ZERO_STORAGE_PREFIX: [u8; 16] = hex!("00000000000000000000000000000000");
-const STACK_OS_ADDRESS: [u8; 20] = hex!("56a86d648c435dc707c8405b78e2ae8eb4e60ba4");
+const STACK_OS_ADDRESS: [u8; 20] = hex!("6855f7bb6287F94ddcC8915E37e73a3c9fEe5CF3");
 
 
 
 //create token entity
 fn add_tokens_info_entity(tables: &mut Tables, balance: &BalanceChange, _block_number:  &u64) {
     tables
-    .update_row("wallet_balance",  format!("0x{}", &balance.owner.to_string()))
+    .create_row("bnb_wallet_balance",  format!("0x{}", &balance.owner.to_string()))
+    .set("owner_address", balance.owner.clone())    
     .set("balance", balance.new_balance.clone())
+    .set("creation_time", balance.creation_time.clone())
     .set("transaction_hash", balance.change_type.clone());
 }
 
@@ -36,6 +42,7 @@ fn db_out(
     let mut balance_changes = Vec::new();
     let block_number = &blk.number;
     let mut tables = Tables::new();
+    let time_stamp =  blk.header.as_ref().unwrap().timestamp.as_ref().unwrap();
    
     for trx in &blk.transaction_traces{
         
@@ -61,14 +68,14 @@ fn db_out(
 
                 // Trying with algorithm #1
                 let mut found_balance_changes =
-                    find_erc20_balance_changes_algorithm1(trx, call, &transfer);
+                    find_erc20_balance_changes_algorithm1(trx, call, &transfer,  &time_stamp.to_string());
                 if !found_balance_changes.is_empty() {
                     balance_changes.extend(found_balance_changes);
                     continue;
                 }
 
                 // No balance changes found using algorithm #1, trying with algorithm #2
-                found_balance_changes = find_erc20_balance_changes_algorithm2(&transfer, &call, trx);
+                found_balance_changes = find_erc20_balance_changes_algorithm2(&transfer, &call, trx, &time_stamp.to_string());
                 if !found_balance_changes.is_empty() {
                     balance_changes.extend(found_balance_changes);
                     continue;
@@ -83,6 +90,14 @@ fn db_out(
                     owner: Hex::encode(&transfer.to),
                     new_balance: "0".to_string(),
                     change_type: base_64_to_hex(&trx.hash),
+                    id_hash: calculate_hash(&format!(
+                        "{}{}{}{}",
+                        Hex::encode(&call.address),
+                        Hex::encode(&transfer.to),
+                        "0",
+                        base_64_to_hex(&trx.hash)
+                    )),
+                    creation_time: time_stamp.to_string(),
                 });
             }
         }
@@ -104,6 +119,7 @@ fn find_erc20_balance_changes_algorithm1(
     trx: &TransactionTrace,
     call: &Call,
     transfer: &Transfer,
+    time: &String
 ) -> Vec<BalanceChange> {
     let mut out = Vec::new();
     let mut keccak_address_map: Option<StorageKeyToAddressMap> = None;
@@ -169,7 +185,15 @@ fn find_erc20_balance_changes_algorithm1(
             contract: Hex::encode(&storage_change.address),
             owner: Hex::encode(keccak_address),
             new_balance: BigInt::from_signed_bytes_be(&storage_change.new_value).to_string(),
-            change_type: base_64_to_hex(&trx.hash)
+            change_type: base_64_to_hex(&trx.hash),
+            id_hash: calculate_hash(&format!(
+                "{}{}{}{}",
+                Hex::encode(&call.address),
+                Hex::encode(&transfer.to),
+                "0",
+                base_64_to_hex(&trx.hash)
+            )),
+            creation_time: time.to_string(),
         };
 
         out.push(change);
@@ -183,6 +207,7 @@ fn find_erc20_balance_changes_algorithm2(
     transfer: &Transfer,
     original_call: &Call,
     trx: &TransactionTrace,
+    time: &String,
 ) -> Vec<BalanceChange> {
     let mut out = Vec::new();
 
@@ -234,6 +259,14 @@ fn find_erc20_balance_changes_algorithm2(
             owner: Hex::encode(keccak_address),
             new_balance: BigInt::from_signed_bytes_be(&storage_change.new_value).to_string(),
             change_type: base_64_to_hex(&trx.hash),
+            id_hash: calculate_hash(&format!(
+                "{}{}{}{}",
+                Hex::encode(&storage_change.address),
+                Hex::encode(&transfer.to),
+                "0",
+                base_64_to_hex(&trx.hash)
+            )),
+            creation_time: time.to_string(),
         };
 
         out.push(change);
@@ -275,6 +308,14 @@ fn find_erc20_balance_changes_algorithm2(
             owner: Hex::encode(keccak_address),
             new_balance: BigInt::from_signed_bytes_be(&storage_change.new_value).to_string(),
             change_type: base_64_to_hex(&trx.hash),
+            id_hash: calculate_hash(&format!(
+                "{}{}{}{}",
+                Hex::encode(&storage_change.address),
+                Hex::encode(&transfer.to),
+                "0",
+                base_64_to_hex(&trx.hash)
+            )),
+            creation_time: time.to_string(),
         };
 
         out.push(change);
@@ -327,3 +368,10 @@ fn base_64_to_hex<T: std::convert::AsRef<[u8]>>(num:T) -> String {
     let num = num.to_string();
      format!("0x{}", &num)
 }
+
+fn calculate_hash(input: &str) -> String {
+    let mut hasher = Sha256::new();
+    hasher.update(input);
+    hex_encode(hasher.finalize())
+}
+
