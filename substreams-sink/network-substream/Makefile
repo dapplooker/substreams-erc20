@@ -1,5 +1,7 @@
 DSN ?= psql://postgres:root@localhost:5432/substreams_e?&schema="stack_os_data"&sslmode=disable
 ENDPOINT ?= mainnet.eth.streamingfast.io:443
+ENDPOINT_POLYGON ?= polygon.streamingfast.io:443
+ENDPOINT_BNB ?= bnb.streamingfast.io:443
 
 .PHONY: build
 build:
@@ -15,8 +17,16 @@ stream_db_out: build
 
 .PHONY: create_db
 create_db: 
-	substreams-sink-sql setup "$(DSN)" sink/substreams.dev.yaml
+	substreams-sink-sql setup "$(DSN)" sink/substreams.eth.yaml
 
 .PHONY: sink_db_out
 sink_db_out: build
-	substreams-sink-sql run "$(DSN)" sink/substreams.dev.yaml 12296288:17942367
+	substreams-sink-sql run "$(DSN)" sink/substreams.eth.yaml 12296288:17942367
+
+.PHONY: sink_db_out_polygon
+sink_db_out: build
+	substreams-sink-sql run "$(DSN)" sink/substreams.polygon.yaml 21710495:46448222
+
+.PHONY: sink_db_out_bnb
+sink_db_out: build
+	substreams-sink-sql run "$(DSN)" sink/substreams.bnb.yaml 12296288:17942367
