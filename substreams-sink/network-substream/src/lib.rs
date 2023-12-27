@@ -20,14 +20,14 @@ use hex::encode as hex_encode;
 
 const NULL_ADDRESS: [u8; 20] = hex!("0000000000000000000000000000000000000000");
 const ZERO_STORAGE_PREFIX: [u8; 16] = hex!("00000000000000000000000000000000");
-const STACK_OS_ADDRESS: [u8; 20] = hex!("56a86d648c435dc707c8405b78e2ae8eb4e60ba4");
+const STACK_OS_ADDRESS: [u8; 20] = hex!("980111ae1b84e50222c8843e3a7a038f36fecd2b");
 
 
 
 //create token entity
 fn add_tokens_info_entity(tables: &mut Tables, balance: &BalanceChange, _block_number:  &u64) {
     tables
-    .create_row("ethereum_wallet_balance",  format!("0x{}", &balance.id_hash.to_string()))
+    .create_row("polygon_wallet_balance",  format!("0x{}", &balance.id_hash.to_string()))
     .set("id", balance.id_hash.clone())  
     .set("owner_address", format!("0x{}", &balance.owner.clone()))    
     .set("balance", balance.new_balance.clone())

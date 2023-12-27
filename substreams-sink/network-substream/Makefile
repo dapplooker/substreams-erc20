@@ -1,7 +1,5 @@
 DSN ?= psql://postgres:root@localhost:5432/substreams_e?&schema="stack_os_data"&sslmode=disable
-ENDPOINT ?= mainnet.eth.streamingfast.io:443
-ENDPOINT_POLYGON ?= polygon.streamingfast.io:443
-ENDPOINT_BNB ?= bnb.streamingfast.io:443
+ENDPOINT ?= polygon.streamingfast.io:443
 
 .PHONY: build
 build:
