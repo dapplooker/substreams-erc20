@@ -12,15 +12,13 @@ use substreams_ethereum::pb::eth::v2::{Call, TransactionTrace, TransactionTraceS
 use substreams::log::info;
 use std::collections::HashMap;
 use substreams_ethereum::Event;
-use chrono::{DateTime, Utc};
 use sha2::{Digest, Sha256};
-use std::time::Duration;
 use hex::encode as hex_encode;
 
 
 const NULL_ADDRESS: [u8; 20] = hex!("0000000000000000000000000000000000000000");
 const ZERO_STORAGE_PREFIX: [u8; 16] = hex!("00000000000000000000000000000000");
-const STACK_OS_ADDRESS: [u8; 20] = hex!("0x56a86d648c435dc707c8405b78e2ae8eb4e60ba4");
+const STACK_OS_ADDRESS: [u8; 20] = hex!("56a86d648c435dc707c8405b78e2ae8eb4e60ba4");
 
 
 

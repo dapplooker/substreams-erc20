@@ -1,4 +1,4 @@
-DSN ?= psql://postgres:root@localhost:5432/substreams_e?&schema="stack_os_data"&sslmode=disable
+DSN ?= psql://postgres:G25xZVFg9tpr5kbCQpFu@dapplooker-production.cgrozmytutpw.us-east-1.rds.amazonaws.com:5432/dapplooker_dapp_production?&schema="stack_os_data"&sslmode=require&sslrootcert=/root/.ssh/us-east-1-bundle.pem
 ENDPOINT ?= bnb.streamingfast.io:443
 
 .PHONY: build
