@@ -20,7 +20,7 @@ use hex::encode as hex_encode;
 
 const NULL_ADDRESS: [u8; 20] = hex!("0000000000000000000000000000000000000000");
 const ZERO_STORAGE_PREFIX: [u8; 16] = hex!("00000000000000000000000000000000");
-const STACK_OS_ADDRESS: [u8; 20] = hex!("980111ae1b84e50222c8843e3a7a038f36fecd2b");
+const STACK_OS_ADDRESS: [u8; 20] = hex!("0x56a86d648c435dc707c8405b78e2ae8eb4e60ba4");
 
 
 
@@ -28,8 +28,8 @@ const STACK_OS_ADDRESS: [u8; 20] = hex!("980111ae1b84e50222c8843e3a7a038f36fecd2
 fn add_tokens_info_entity(tables: &mut Tables, balance: &BalanceChange, _block_number:  &u64) {
     tables
     .create_row("polygon_wallet_balance",  format!("0x{}", &balance.id_hash.to_string()))
-    .set("id", balance.id_hash.clone())  
-    .set("owner_address", format!("0x{}", &balance.owner.clone()))    
+    .set("id", balance.id_hash.clone())
+    .set("owner_address", format!("0x{}", &balance.owner.clone()))
     .set("balance", balance.new_balance.clone())
     .set("creation_time", balance.creation_time.clone())
     .set("transaction_hash", balance.change_type.clone());
@@ -44,9 +44,9 @@ fn db_out(
     let block_number = &blk.number;
     let mut tables = Tables::new();
     let time_stamp =  blk.header.as_ref().unwrap().timestamp.as_ref().unwrap();
-   
+
     for trx in &blk.transaction_traces{
-        
+
         if trx.status == TransactionTraceStatus::Succeeded as i32 {
         for call in trx.calls.iter() {
             if call.state_reverted {
@@ -102,15 +102,15 @@ fn db_out(
                 });
             }
         }
-       
+
     }
     }
-    
+
     for balance in balance_changes.iter() {
         // if balance.contract.to_lowercase().starts_with("56a86d648c435dc707c8405b78e2ae8eb4e60ba4"){
             add_tokens_info_entity(&mut tables, &balance, &block_number);
         // }
-    } 
+    }
     Ok(tables.to_database_changes())
 }
 

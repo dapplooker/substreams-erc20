@@ -14,12 +14,12 @@ stream_db_out: build
 	substreams run -e $(ENDPOINT) substreams.yaml db_out -s 12296777 -t +100 -o json
 
 .PHONY: create_db
-create_db: 
+create_db:
 	substreams-sink-sql setup "$(DSN)" sink/substreams.eth.yaml
 
 .PHONY: sink_db_out
 sink_db_out: build
-	substreams-sink-sql run "$(DSN)" sink/substreams.eth.yaml 12296288:17942367
+	substreams-sink-sql run "$(DSN)" sink/substreams.eth.yaml 12296288:18035164
 
 .PHONY: sink_db_out_polygon
 sink_db_out_polygon: build
