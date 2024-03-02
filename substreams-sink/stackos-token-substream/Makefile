@@ -3,7 +3,7 @@ ENDPOINT ?= bnb.streamingfast.io:443
 
 .PHONY: build
 build:
-	cargo build --target wasm32-unknown-unknown --release
+	cargo +stable build --target wasm32-unknown-unknown --release
 
 .PHONY: protogen
 protogen:
@@ -17,14 +17,14 @@ stream_db_out: build
 create_db:
 	substreams-sink-sql setup "$(DSN)" sink/substreams.eth.yaml
 
-.PHONY: sink_db_out
-sink_db_out: build
-	substreams-sink-sql run "$(DSN)" sink/substreams.eth.yaml 12296288:18035164
-
-.PHONY: sink_db_out_polygon
-sink_db_out_polygon: build
-	substreams-sink-sql run "$(DSN)" sink/substreams.polygon.yaml 21710495:46448222
+# .PHONY: sink_db_out
+# sink_db_out: build
+# 	substreams-sink-sql run "$(DSN)" sink/substreams.eth.yaml 12296288:18035164
+#
+# .PHONY: sink_db_out_polygon
+# sink_db_out_polygon: build
+# 	substreams-sink-sql run "$(DSN)" sink/substreams.polygon.yaml 21710495:46448222
 
 .PHONY: sink_db_out_bnb
 sink_db_out_bnb: build
-	substreams-sink-sql run "$(DSN)" sink/substreams.bnb.yaml 12296288:17942367
+	substreams-sink-sql run "$(DSN)" sink/substreams.bnb.yaml 12296288:31335611
