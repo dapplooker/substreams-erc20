@@ -4,8 +4,6 @@ use substreams::scalar::BigInt;
 use substreams::store::StoreGet;
 use substreams::store::{StoreGetString};
 use substreams::{errors::Error};
-use substreams_entity_change::pb::entity::EntityChanges;
-// use substreams_entity_change::tables::Tables;
 use substreams_database_change::tables::Tables;
 use substreams_database_change::pb::database::{ DatabaseChanges};
 
