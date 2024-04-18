@@ -5,10 +5,12 @@ use substreams::store::StoreGet;
 use substreams::store::{StoreGetString};
 use substreams::{errors::Error};
 use substreams_entity_change::pb::entity::EntityChanges;
-use substreams_entity_change::tables::Tables;
+// use substreams_entity_change::tables::Tables;
+use substreams_database_change::tables::Tables;
+use substreams_database_change::pb::database::{ DatabaseChanges};
 
 #[substreams::handlers::map]
-pub fn graph_out(block: BalanceChanges, token: StoreGetString) -> Result<EntityChanges, Error> {
+pub fn db_out(block: BalanceChanges, token: StoreGetString) -> Result<DatabaseChanges, Error> {
     let mut tables = Tables::new();
 
     for storage_change in block.balance_changes {
@@ -48,5 +50,5 @@ pub fn graph_out(block: BalanceChanges, token: StoreGetString) -> Result<EntityC
             );
     }
 
-    Ok(tables.to_entity_changes())
+    Ok(tables.to_database_changes())
 }
