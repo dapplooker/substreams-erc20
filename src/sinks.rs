@@ -4,11 +4,11 @@ use substreams::scalar::BigInt;
 use substreams::store::StoreGet;
 use substreams::store::{StoreGetString};
 use substreams::{errors::Error};
-use substreams_entity_change::pb::entity::EntityChanges;
-use substreams_entity_change::tables::Tables;
+use substreams_database_change::tables::Tables;
+use substreams_database_change::pb::database::{ DatabaseChanges};
 
 #[substreams::handlers::map]
-pub fn graph_out(block: BalanceChanges, token: StoreGetString) -> Result<EntityChanges, Error> {
+pub fn db_out(block: BalanceChanges, token: StoreGetString) -> Result<DatabaseChanges, Error> {
     let mut tables = Tables::new();
 
     for storage_change in block.balance_changes {
@@ -21,7 +21,7 @@ pub fn graph_out(block: BalanceChanges, token: StoreGetString) -> Result<EntityC
                 let token = token_option.clone().unwrap();
 
                 tables
-                    .create_row("Token", append_0x(&storage_change.contract))
+                    .create_row("token", append_0x(&storage_change.contract))
                     .set("name", token.name.clone())
                     .set("decimals", token.decimals.clone())
                     .set("symbol", token.symbol.clone());
@@ -34,10 +34,10 @@ pub fn graph_out(block: BalanceChanges, token: StoreGetString) -> Result<EntityC
             continue;
         }
 
-        tables.create_row("Account", append_0x(&storage_change.owner.clone()));
+        tables.create_row("account", append_0x(&storage_change.owner.clone()));
 
         tables
-            .create_row("Balance", id)
+            .create_row("balance", id)
             // contract address
             .set("token", append_0x(&storage_change.contract))
             // storage change
@@ -48,5 +48,5 @@ pub fn graph_out(block: BalanceChanges, token: StoreGetString) -> Result<EntityC
             );
     }
 
-    Ok(tables.to_entity_changes())
+    Ok(tables.to_database_changes())
 }
