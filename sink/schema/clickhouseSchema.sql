@@ -11,22 +11,22 @@ CREATE TABLE IF NOT EXISTS erc20.cursors (
     PRIMARY KEY (id)
     ORDER BY (id);
 
-CREATE TABLE IF NOT EXISTS erc20.Token (
+CREATE TABLE IF NOT EXISTS erc20.token (
     name           String,
     decimals           String,
     symbol           String,
 ) ENGINE = ReplacingMergeTree()
 ORDER BY (name);
 
-CREATE TABLE IF NOT EXISTS erc20.Account (
-    balances           String,
+CREATE TABLE IF NOT EXISTS erc20.account (
+    account           String,
 ) ENGINE = ReplacingMergeTree()
-ORDER BY (balances);
+ORDER BY (account);
 
-CREATE TABLE IF NOT EXISTS erc20.Balance (  
+CREATE TABLE IF NOT EXISTS erc20.balance (  
     token           String,
     owner           String,
-    balance           String
+    balance         String
 ) ENGINE = ReplacingMergeTree()
 ORDER BY (token);
 

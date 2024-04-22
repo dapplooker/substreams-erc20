@@ -21,7 +21,7 @@ pub fn db_out(block: BalanceChanges, token: StoreGetString) -> Result<DatabaseCh
                 let token = token_option.clone().unwrap();
 
                 tables
-                    .create_row("Token", append_0x(&storage_change.contract))
+                    .create_row("token", append_0x(&storage_change.contract))
                     .set("name", token.name.clone())
                     .set("decimals", token.decimals.clone())
                     .set("symbol", token.symbol.clone());
@@ -34,10 +34,10 @@ pub fn db_out(block: BalanceChanges, token: StoreGetString) -> Result<DatabaseCh
             continue;
         }
 
-        tables.create_row("Account", append_0x(&storage_change.owner.clone()));
+        tables.create_row("account", append_0x(&storage_change.owner.clone()));
 
         tables
-            .create_row("Balance", id)
+            .create_row("balance", id)
             // contract address
             .set("token", append_0x(&storage_change.contract))
             // storage change

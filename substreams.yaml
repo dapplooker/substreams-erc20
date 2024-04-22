@@ -49,3 +49,4 @@ modules:
       - store: store_tokens
     output:
       type: proto:sf.substreams.sink.database.v1.DatabaseChanges
+      
