@@ -24,8 +24,8 @@ CREATE TABLE IF NOT EXISTS erc20.account (
 ORDER BY (account);
 
 CREATE TABLE IF NOT EXISTS erc20.balance (  
-    token           String,
-    owner           String,
+    token           FixedString(85),
+    owner           FixedString(42),
     balance         String
 ) ENGINE = ReplacingMergeTree()
 ORDER BY (token);
