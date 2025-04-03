@@ -27,4 +27,4 @@ create_db:
 
 .PHONY: sink_db_out_bnb
 sink_db_out_bnb: build
-	substreams-sink-sql run "$(DSN)" sink/substreams.bnb.yaml 12296288:31335611
+	substreams-sink-sql run "$(DSN)" sink/substreams.bnb.yaml 31335612:35323560
